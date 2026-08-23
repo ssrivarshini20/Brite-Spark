@@ -21,3 +21,9 @@
 ## Hackathon Constraints
 - **What was NOT built**: Authentication, user accounts, chat history/memory, and multi-document ingestion. These were omitted to focus entirely on the core grounding, retrieval, and UI polish constraints of the problem.
 - **Day 2 requirement preparation**: The codebase separates `retriever.py`, `generator.py`, and `answer_service.py`. If Day 2 requires changing the embedding model, adding a reranker, or switching to an Agentic workflow, those components can be swapped without touching the API routes or the frontend.
+
+## Amendment No. 2026-01
+- Added the amendment as a dated corpus document and exposed an optional claim date through the API and UI.
+- Retrieval excludes amendment evidence before 1 March 2026; generation is told to apply amendment wording on or after its effective date.
+- Kept the consolidated manual unchanged so pre-effective questions retain the prior rules.
+- The implementation treats the supplied claim date as the relevant determination/claim date; a richer event-date model would be needed to distinguish every transitional scenario in paragraph 5.2.

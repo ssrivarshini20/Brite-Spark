@@ -54,6 +54,7 @@ First, ingest the policy manual into ChromaDB:
 # From project root
 python scripts/ingest_policy.py
 ```
+The ingestion includes `data/Amendment No. 2026-01.md`. Questions sent to the API may include an ISO `claim_date` (for example, `2026-02-28`); the frontend supplies today’s date by default.
 
 ### 2. Run Backend
 ```bash
