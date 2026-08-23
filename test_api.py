@@ -1,0 +1,21 @@
+import pytest
+from fastapi.testclient import TestClient
+from app.main import app
+
+client = TestClient(app)
+
+def test_health_check():
+    response = client.get("/api/health")
+    assert response.status_code == 200
+    assert response.json() == {"status": "healthy"}
+
+def test_ask_empty_question():
+    response = client.post("/api/ask", json={"question": "   "})
+    assert response.status_code == 200
+    data = response.json()
+    assert data["status"] == "unknown"
+    assert "valid question" in data["answer"].lower()
+
+def test_ask_invalid_input():
+    response = client.post("/api/ask", json={})
+    assert response.status_code == 422 # Validation error

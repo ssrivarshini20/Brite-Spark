@@ -1,0 +1,60 @@
+questions:
+  - id: 1
+    description: "Direct answerable question"
+    question: "What is the maximum amount of countable resources a household can have to be eligible?"
+    expected_behavior: "answered"
+    expected_clauses: ["§2.4.1"]
+
+  - id: 2
+    description: "Specific policy question"
+    question: "Is a single motor vehicle counted as a resource?"
+    expected_behavior: "answered"
+    expected_clauses: ["§2.4.2"]
+
+  - id: 3
+    description: "Paraphrased question"
+    question: "My 19 year old son lives with me and goes to high school, is he a dependent child?"
+    expected_behavior: "answered"
+    expected_clauses: ["§1.4.5"]
+
+  - id: 4
+    description: "Question requiring multiple clauses"
+    question: "How long can a person be temporarily absent from the county if they are accompanying someone getting medical treatment?"
+    expected_behavior: "answered"
+    expected_clauses: ["§3.2.1", "§3.2.2"]
+
+  - id: 5
+    description: "Unsupported question"
+    question: "Can I get a separate award for my dog's food?"
+    expected_behavior: "unknown"
+    expected_clauses: []
+
+  - id: 6
+    description: "Apparent-gap question"
+    question: "Is a full-time student's absence from the county considered a temporary absence?"
+    expected_behavior: "unknown"
+    expected_clauses: []
+
+  - id: 7
+    description: "Contradiction/conflict question"
+    question: "I had a change of income. How many days do I have to report it to avoid an overpayment?"
+    expected_behavior: "conflict"
+    expected_clauses: ["§4.3.2", "§9.1.4"]
+
+  - id: 8
+    description: "Edge case"
+    question: "I applied on the 1st, but gave the missing documents on the 15th. What is my date of application?"
+    expected_behavior: "answered"
+    expected_clauses: ["§8.1.3"]
+
+  - id: 9
+    description: "Ambiguous question"
+    question: "How much do I get paid?"
+    expected_behavior: "unknown"
+    expected_clauses: []
+
+  - id: 10
+    description: "Another realistic policy question"
+    question: "If I was overpaid because the Department made a mistake calculating my award, do I have to pay it back?"
+    expected_behavior: "answered"
+    expected_clauses: ["§9.1.5"]
