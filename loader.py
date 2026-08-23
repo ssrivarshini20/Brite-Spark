@@ -1,5 +1,6 @@
 import re
 import os
+from datetime import datetime
 from typing import List, Dict, Any
 
 def parse_policy_manual(file_path: str) -> List[Dict[str, Any]]:
@@ -10,6 +11,12 @@ def parse_policy_manual(file_path: str) -> List[Dict[str, Any]]:
         content = f.read()
 
     chunks = []
+    document_name = os.path.basename(file_path)
+    effective_match = re.search(r'\*\*Effective:\*\*\s*(\d{1,2} \w+ \d{4})', content)
+    effective_from = None
+    if effective_match:
+        effective_from = datetime.strptime(effective_match.group(1), "%d %B %Y").date().isoformat()
+    is_amendment = effective_from is not None
     current_part = ""
     current_section = ""
     
@@ -22,10 +29,12 @@ def parse_policy_manual(file_path: str) -> List[Dict[str, Any]]:
         if current_clause_num and current_clause_text:
             text_content = " ".join([t for t in current_clause_text if t.strip()])
             chunks.append({
-                "document": "policy-manual.md",
+                "document": document_name,
                 "section": f"{current_part} - {current_section}".strip(" -"),
                 "clause": f"§{current_clause_num}",
-                "source_text": f"**{current_clause_num}** {text_content}"
+                "source_text": f"**{current_clause_num}** {text_content}",
+                "effective_from": effective_from,
+                "is_amendment": is_amendment
             })
             
     for line in lines:
@@ -45,7 +54,7 @@ def parse_policy_manual(file_path: str) -> List[Dict[str, Any]]:
             current_clause_text = []
             current_section = line_stripped.lstrip("## ").strip()
         else:
-            match = re.match(r'^\*\*(\d+\.\d+\.\d+)\*\*(.*)', line_stripped)
+            match = re.match(r'^\*\*(\d+(?:\.\d+)+(?:[A-Z])?)\*\*(.*)', line_stripped)
             if match:
                 save_clause()
                 current_clause_num = match.group(1).strip()

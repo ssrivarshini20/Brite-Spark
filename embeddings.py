@@ -33,13 +33,15 @@ class EmbeddingService:
         batch_embeddings = self.embed_batch(texts)
 
         for i, chunk in enumerate(chunks):
-            ids.append(chunk["clause"])
+            ids.append(f"{chunk['document']}:{chunk['clause']}")
             documents.append(chunk["source_text"])
             metadatas.append({
                 "document": chunk["document"],
                 "section": chunk["section"],
                 "clause": chunk["clause"],
-                "source_text": chunk["source_text"]
+                "source_text": chunk["source_text"],
+                "effective_from": chunk.get("effective_from") or "",
+                "is_amendment": str(chunk.get("is_amendment", False)).lower()
             })
             embeddings.append(batch_embeddings[i])
 
